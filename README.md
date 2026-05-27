@@ -263,6 +263,13 @@ A useful pseudo-pairing method should do better than random and move closer to t
 - Johnny Xi, Jana Osea, Zuheng Xu, and Jason Hartford. *Propensity Score Alignment of Unpaired Multimodal Data*. NeurIPS, 2024.
 - Cédric Villani. *Optimal Transport: Old and New*. Springer, 2009.
 
+### Why these references?
+
+- **Rosenbaum and Rubin** provide the classical statistical foundation for propensity scores and matching.
+- **Austin** gives a practical overview of propensity-score methods and why they are useful for reducing confounding in observational data.
+- **Propensity Score Alignment of Unpaired Multimodal Data** is the closest modern reference because it applies propensity-score ideas to unpaired multimodal matching.
+- **Villani** is included because optimal transport is a major matching framework used in multimodal alignment literature, including propensity-score-based alignment work.
+
 ## Boundary of This Benchmark
 
 This benchmark is a controlled pairing laboratory. The synthetic setup makes it possible to observe exact pair quality, same-group quality, metadata noise, and retrieval behavior under known conditions.
@@ -270,3 +277,10 @@ This benchmark is a controlled pairing laboratory. The synthetic setup makes it 
 The results should not be read as a universal ranking of matching algorithms. They show how these specific pair-construction strategies behave inside a designed stress test.
 
 A natural next step would be to test stronger matching estimators, add confidence-thresholded pair filtering, repeat runs across multiple seeds, and evaluate whether the same pair-quality patterns appear in authorized real paired datasets.
+
+## Documentation
+
+- [Pair quality audit](docs/pair_quality_audit.md)
+- [Matching strategy notes](docs/matching_strategy_notes.md)
+- [Metric interpretation](docs/metric_interpretation.md)
+- [Reproducibility protocol](docs/reproducibility_protocol.md)

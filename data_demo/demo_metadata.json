@@ -1,0 +1,14 @@
+{
+  "mode": "high_noise",
+  "n_samples": 5000,
+  "n_groups": 50,
+  "latent_dim": 32,
+  "feature_dim": 64,
+  "seed": 42,
+  "settings": {
+    "latent_noise": 0.4,
+    "metadata_noise": 0.35,
+    "feature_noise": 0.28
+  },
+  "description": "Controlled synthetic multimodal data for pseudo-pair construction and propensity-style matching experiments."
+}

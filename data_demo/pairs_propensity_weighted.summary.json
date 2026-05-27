@@ -1,0 +1,8 @@
+{
+  "strategy": "propensity_weighted",
+  "n_pairs": 5000,
+  "pair_precision_true": 0.0752,
+  "pair_precision_same_group": 0.2414,
+  "pair_score_mean": 0.994730331784743,
+  "pair_score_std": 0.0027580383119137756
+}

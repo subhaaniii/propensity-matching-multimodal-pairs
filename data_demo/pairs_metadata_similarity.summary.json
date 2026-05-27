@@ -1,0 +1,8 @@
+{
+  "strategy": "metadata_similarity",
+  "n_pairs": 5000,
+  "pair_precision_true": 0.0822,
+  "pair_precision_same_group": 0.2462,
+  "pair_score_mean": 0.9989922912627953,
+  "pair_score_std": 0.0013756166106434849
+}

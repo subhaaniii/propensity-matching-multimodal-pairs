@@ -1,0 +1,8 @@
+{
+  "strategy": "random",
+  "n_pairs": 5000,
+  "pair_precision_true": 0.0,
+  "pair_precision_same_group": 0.0218,
+  "pair_score_mean": 1.0,
+  "pair_score_std": 0.0
+}

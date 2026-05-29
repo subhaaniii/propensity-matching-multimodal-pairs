@@ -166,6 +166,45 @@ The full benchmark results are available here:
 
 The summary file includes the complete 24-run comparison across clean, moderate-noise, and high-noise conditions.
 
+## Pair-Construction Visualizations
+
+The plots below summarize pair quality, retrieval performance, and the constructed pseudo-pair space.
+
+<table>
+  <tr>
+    <th>Pair quality</th>
+    <th>Retrieval comparison</th>
+    <th>Propensity pairing space</th>
+  </tr>
+  <tr>
+    <td width="33%">
+      <a href="figures/pair_quality_comparison.png">
+        <img src="figures/pair_quality_comparison.png" alt="Pair quality comparison" width="100%">
+      </a>
+    </td>
+    <td width="33%">
+      <a href="figures/retrieval_strategy_comparison.png">
+        <img src="figures/retrieval_strategy_comparison.png" alt="Retrieval strategy comparison" width="100%">
+      </a>
+    </td>
+    <td width="33%">
+      <a href="figures/propensity_pairing_space.png">
+        <img src="figures/propensity_pairing_space.png" alt="Propensity pairing space" width="100%">
+      </a>
+    </td>
+  </tr>
+</table>
+
+Each panel links to the full-resolution figure.
+
+| Panel | What to notice |
+|---|---|
+| **Pair quality** | True-pair supervision is the oracle upper bound, random pairing is the lower bound, and metadata/propensity methods recover partial group-level pairing signal. |
+| **Retrieval comparison** | Retrieval performance follows pair quality: true pairs perform best, random pairs perform worst, and pseudo-pairing methods sit between them. |
+| **Propensity pairing space** | Circles and crosses represent the two modalities. Lines show selected propensity-weighted constructed pairs. Shorter and more local lines suggest more geometrically plausible pseudo-pairs. |
+
+These figures are qualitative diagnostics. The main conclusions are based on the quantitative results in `experiments/results_table.csv`.
+
 ---
 
 ## Repository Structure

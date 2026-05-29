@@ -109,7 +109,11 @@ def plot_pair_quality(n_samples: int = 24000) -> None:
         ax.set_ylabel("Precision")
         ax.grid(axis="y", alpha=0.25)
 
-    axes[1].legend(loc="best", fontsize=8)
+    axes[1].legend(
+        loc="upper right",
+        fontsize=8,
+        frameon=True,
+    )
 
     fig.suptitle(f"Pair-construction quality ({n_samples} samples)", fontsize=13)
     fig.tight_layout()
@@ -151,7 +155,11 @@ def plot_retrieval_comparison(n_samples: int = 24000) -> None:
     ax.set_xticks(x)
     ax.set_xticklabels([MODE_LABELS[m] for m in MODE_ORDER])
     ax.grid(axis="y", alpha=0.25)
-    ax.legend(loc="best", fontsize=8)
+    ax.legend(
+        loc="upper right",
+        fontsize=8,
+        frameon=True,
+    )
 
     fig.tight_layout()
     fig.savefig(FIGURES_DIR / "retrieval_strategy_comparison.png", dpi=220, bbox_inches="tight")

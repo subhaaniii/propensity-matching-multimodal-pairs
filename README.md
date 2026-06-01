@@ -6,6 +6,12 @@ This repository focuses on the pairing step: before training a retrieval model, 
 
 The project compares random pairing, metadata-similarity pairing, and propensity-weighted pairing against a true-pair upper bound.
 
+## Research Report
+
+A paper-style summary of this project is available here:
+
+[Read the paper-style report](docs/paper_style_report.md)
+
 ---
 
 ## Why Pair Construction Matters

@@ -30,7 +30,7 @@ The central idea is:
 
 ## Core Question
 
-Can metadata-based pseudo-pair construction recover useful retrieval signal when exact cross-modal pairs are unavailable or difficult to identify?
+> Can metadata-based pseudo-pair construction recover useful retrieval signal when exact cross-modal pairs are unavailable or difficult to identify?
 
 The benchmark tests this by changing:
 
@@ -44,29 +44,13 @@ The benchmark tests this by changing:
 
 ## Pairing Strategies
 
-| Strategy | Role |
-|---|---|
-| True pair | Oracle upper bound using ground-truth pairs |
-| Random | Lower bound using arbitrary pairs |
-| Metadata similarity | Simple heuristic matching based on metadata closeness |
-| Propensity weighted | Learned metadata-based matching score for pseudo-pair selection |
+This benchmark compares true-pair supervision, random pairing, metadata-similarity pairing, and propensity-weighted pseudo-pairing.
 
-The true-pair strategy is not meant as a deployable method. It is included as an upper bound so the pseudo-pair methods can be interpreted properly.
+The goal is to test whether pseudo-pairing methods can move above random pairing and closer to the true-pair upper bound.
+
+For the detailed method description, see the [paper-style report](docs/paper_style_report.md#3-method).
 
 ---
-
-## Related Work
-
-This repository is motivated by propensity-score methods for matching and recent work on unpaired multimodal alignment.
-
-The classical foundation comes from Rosenbaum and Rubin's work on propensity scores, where the propensity score is defined as the conditional probability of treatment assignment given observed covariates. In causal inference, matching on the propensity score is used to make groups more comparable when direct randomized assignment is not available.
-
-This idea is closely related to the problem studied in this repository: when exact cross-modal pairs are unavailable, metadata can be used to estimate whether two samples are likely to belong together.
-
-The most directly related multimodal work is *Propensity Score Alignment of Unpaired Multimodal Data*. That paper uses propensity scores as a shared matching space for unpaired multimodal samples, then applies matching methods such as shared nearest neighbours and optimal transport.
-
-This repository does not reproduce that paper directly. Instead, it builds a smaller controlled benchmark to compare random pairing, metadata-similarity pairing, and propensity-weighted pseudo-pairing under different noise levels.
-
 
 ## Synthetic Benchmark
 
@@ -131,47 +115,6 @@ This separation matters because retrieval results can be misleading if pair qual
 
 ---
 
-## Key Findings
-
-The benchmark shows that pair construction quality strongly controls retrieval performance.
-
-### True pairs define the upper bound
-
-When the true pair is available, the retrieval model learns strong alignment in clean and moderate-noise settings. However, even true-pair performance drops under high noise, showing that feature quality still matters.
-
-### Random pairs behave like a lower bound
-
-Random pairing stays close to random retrieval behavior. This validates that the model cannot learn useful cross-modal alignment from arbitrary pair assignments.
-
-### Metadata similarity can recover useful signal
-
-In clean settings, metadata similarity recovers meaningful retrieval signal even when exact-pair precision is low.
-
-For example, in the 8000-sample clean setting, metadata similarity reaches strong Recall@50 despite having only a small fraction of exact true pairs. This suggests that approximate pair construction can still provide useful neighborhood-level supervision.
-
-### Propensity weighting helps in noisier regimes
-
-In the 8000-sample moderate-noise setting, propensity-weighted matching improves over metadata similarity across several retrieval metrics, including Recall@1, Recall@10, Recall@50, lift@50, and positive-pair similarity.
-
-This suggests that learned metadata-based scoring can be more robust than raw metadata similarity when pair construction becomes harder.
-
-### High noise exposes the failure boundary
-
-Under high noise, both metadata similarity and propensity weighting approach the random baseline. This means that when metadata becomes too weak, pseudo-pair construction cannot reliably recover useful training pairs.
-
-The important lesson is not that one strategy always wins. The lesson is that pair construction has a measurable breaking point.
-
----
-
-## Results
-
-The full benchmark results are available here:
-
-- [Full benchmark summary](experiments/results_summary.md)
-- [Raw result table](experiments/results_table.csv)
-
-The summary file includes the complete 24-run comparison across clean, moderate-noise, and high-noise conditions.
-
 ## Pair-Construction Visualizations
 
 The plots below summarize pair quality, retrieval performance, and the constructed pseudo-pair space.
@@ -210,6 +153,47 @@ Each panel links to the full-resolution figure.
 | **Propensity pairing space** | Circles and crosses represent the two modalities. Lines show selected propensity-weighted constructed pairs. Shorter and more local lines suggest more geometrically plausible pseudo-pairs. |
 
 These figures are qualitative diagnostics. The main conclusions are based on the quantitative results in `experiments/results_table.csv`.
+
+## Results
+
+The full benchmark results are available here:
+
+- [Full benchmark summary](experiments/results_summary.md)
+- [Raw result table](experiments/results_table.csv)
+
+The summary file includes the complete 24-run comparison across clean, moderate-noise, and high-noise conditions.
+
+---
+
+## Key Findings
+
+The benchmark shows that pair construction quality strongly controls retrieval performance.
+
+### True pairs define the upper bound
+
+When the true pair is available, the retrieval model learns strong alignment in clean and moderate-noise settings. However, even true-pair performance drops under high noise, showing that feature quality still matters.
+
+### Random pairs behave like a lower bound
+
+Random pairing stays close to random retrieval behavior. This validates that the model cannot learn useful cross-modal alignment from arbitrary pair assignments.
+
+### Metadata similarity can recover useful signal
+
+In clean settings, metadata similarity recovers meaningful retrieval signal even when exact-pair precision is low.
+
+For example, in the 8000-sample clean setting, metadata similarity reaches strong Recall@50 despite having only a small fraction of exact true pairs. This suggests that approximate pair construction can still provide useful neighborhood-level supervision.
+
+### Propensity weighting helps in noisier regimes
+
+In the 8000-sample moderate-noise setting, propensity-weighted matching improves over metadata similarity across several retrieval metrics, including Recall@1, Recall@10, Recall@50, lift@50, and positive-pair similarity.
+
+This suggests that learned metadata-based scoring can be more robust than raw metadata similarity when pair construction becomes harder.
+
+### High noise exposes the failure boundary
+
+Under high noise, both metadata similarity and propensity weighting approach the random baseline. This means that when metadata becomes too weak, pseudo-pair construction cannot reliably recover useful training pairs.
+
+The important lesson is not that one strategy always wins. The lesson is that pair construction has a measurable breaking point.
 
 ---
 
@@ -301,20 +285,6 @@ A useful pseudo-pairing method should do better than random and move closer to t
 
 ---
 
-## References
-
-- Paul R. Rosenbaum and Donald B. Rubin. *The Central Role of the Propensity Score in Observational Studies for Causal Effects*. Biometrika, 1983.
-- Peter C. Austin. *An Introduction to Propensity Score Methods for Reducing the Effects of Confounding in Observational Studies*. Multivariate Behavioral Research, 2011.
-- Johnny Xi, Jana Osea, Zuheng Xu, and Jason Hartford. *Propensity Score Alignment of Unpaired Multimodal Data*. NeurIPS, 2024.
-- Cédric Villani. *Optimal Transport: Old and New*. Springer, 2009.
-
-### Why these references?
-
-- **Rosenbaum and Rubin** provide the classical statistical foundation for propensity scores and matching.
-- **Austin** gives a practical overview of propensity-score methods and why they are useful for reducing confounding in observational data.
-- **Propensity Score Alignment of Unpaired Multimodal Data** is the closest modern reference because it applies propensity-score ideas to unpaired multimodal matching.
-- **Villani** is included because optimal transport is a major matching framework used in multimodal alignment literature, including propensity-score-based alignment work.
-
 ## Boundary of This Benchmark
 
 This benchmark is a controlled pairing laboratory. The synthetic setup makes it possible to observe exact pair quality, same-group quality, metadata noise, and retrieval behavior under known conditions.
@@ -329,3 +299,10 @@ A natural next step would be to test stronger matching estimators, add confidenc
 - [Matching strategy notes](docs/matching_strategy_notes.md)
 - [Metric interpretation](docs/metric_interpretation.md)
 - [Reproducibility protocol](docs/reproducibility_protocol.md)
+
+---
+
+## References
+
+References are included in the [paper-style report](docs/paper_style_report.md).
+

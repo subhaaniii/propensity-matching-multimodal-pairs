@@ -40,26 +40,28 @@ The true-pair strategy is included only as an upper bound. The random strategy i
 
 ## 4. Dataset and Experimental Setup
 
-The project uses controlled synthetic multimodal data. Each sample has:
+The benchmark uses controlled synthetic multimodal data with:
 
-- modality A feature vector
-- modality B feature vector
-- metadata features
-- latent group label
-- known true pair ID
+| Component | Description |
+|---|---|
+| Modality A | Synthetic feature vector |
+| Modality B | Synthetic feature vector |
+| Metadata | Age, severity score, binary conditions, sex |
+| Group label | Latent group used to measure approximate semantic matching |
+| True pair ID | Known exact cross-modal pair |
 
 Three data conditions are tested:
 
 | Condition | Meaning |
 |---|---|
-| Clean | Metadata and features are relatively aligned |
-| Moderate noise | Metadata and features are less reliable |
+| Clean | Metadata and modality features are relatively aligned |
+| Moderate noise | Metadata and features become less reliable |
 | High noise | Metadata becomes weak and pair ambiguity becomes severe |
 
 Two sample sizes are used:
 
 | Total samples | Held-out retrieval pool |
-|---|---|
+|---:|---:|
 | 8000 | 1600 |
 | 24000 | 4800 |
 
@@ -87,6 +89,12 @@ The benchmark runs:
 ```text
 3 data conditions × 2 sample sizes × 4 pairing strategies = 24 runs
 ```
+| Variable | Values |
+|---|---|
+| Data condition | clean, moderate noise, high noise |
+| Sample size | 8000, 24000 |
+| Pairing strategy | true pair, random, metadata similarity, propensity weighted |
+| Training duration | 50 epochs |
 
 The experiment matrix tests whether pseudo-pairing methods can move closer to the true-pair upper bound and away from the random-pair lower bound.
 
@@ -173,5 +181,3 @@ This repository does not reproduce that paper directly. Instead, it builds a sma
 - **Austin** gives a practical overview of propensity-score methods and why they are useful for reducing confounding in observational data.
 - **Propensity Score Alignment of Unpaired Multimodal Data** is the closest modern reference because it applies propensity-score ideas to unpaired multimodal matching.
 - **Villani** is included because optimal transport is a major matching framework used in multimodal alignment literature, including propensity-score-based alignment work.
-
-

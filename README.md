@@ -83,6 +83,14 @@ All reported runs use 50 training epochs.
 
 ---
 
+## Related Work
+
+This project is motivated by propensity-score matching and recent work on unpaired multimodal alignment.
+
+For the full related-work discussion and references, see the [paper-style report](docs/paper_style_report.md#12-related-work).
+
+---
+
 ## Experiment Matrix
 
 ```text
@@ -165,35 +173,15 @@ The summary file includes the complete 24-run comparison across clean, moderate-
 
 ---
 
-## Key Findings
+## Main Findings
 
-The benchmark shows that pair construction quality strongly controls retrieval performance.
+- True-pair supervision gives the strongest retrieval performance and acts as an oracle upper bound.
+- Random pairing behaves like a lower bound and does not provide useful alignment signal.
+- Metadata similarity can recover useful signal when metadata is informative.
+- Propensity-weighted matching can improve over raw metadata similarity in harder settings.
+- Under high noise, pseudo-pairing methods approach the random baseline, showing a clear failure boundary.
 
-### True pairs define the upper bound
-
-When the true pair is available, the retrieval model learns strong alignment in clean and moderate-noise settings. However, even true-pair performance drops under high noise, showing that feature quality still matters.
-
-### Random pairs behave like a lower bound
-
-Random pairing stays close to random retrieval behavior. This validates that the model cannot learn useful cross-modal alignment from arbitrary pair assignments.
-
-### Metadata similarity can recover useful signal
-
-In clean settings, metadata similarity recovers meaningful retrieval signal even when exact-pair precision is low.
-
-For example, in the 8000-sample clean setting, metadata similarity reaches strong Recall@50 despite having only a small fraction of exact true pairs. This suggests that approximate pair construction can still provide useful neighborhood-level supervision.
-
-### Propensity weighting helps in noisier regimes
-
-In the 8000-sample moderate-noise setting, propensity-weighted matching improves over metadata similarity across several retrieval metrics, including Recall@1, Recall@10, Recall@50, lift@50, and positive-pair similarity.
-
-This suggests that learned metadata-based scoring can be more robust than raw metadata similarity when pair construction becomes harder.
-
-### High noise exposes the failure boundary
-
-Under high noise, both metadata similarity and propensity weighting approach the random baseline. This means that when metadata becomes too weak, pseudo-pair construction cannot reliably recover useful training pairs.
-
-The important lesson is not that one strategy always wins. The lesson is that pair construction has a measurable breaking point.
+For the full key findings and interpretation, see the [paper-style report](docs/paper_style_report.md#8-key-findings).
 
 ---
 

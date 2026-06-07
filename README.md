@@ -52,34 +52,13 @@ For the detailed method description, see the [paper-style report](docs/paper_sty
 
 ---
 
-## Synthetic Benchmark
+## Benchmark Setup
 
-The benchmark uses controlled synthetic multimodal data with:
+The benchmark uses controlled synthetic multimodal data with modality-A features, modality-B features, metadata, latent group labels, and known true-pair IDs.
 
-| Component | Description |
-|---|---|
-| Modality A | Synthetic feature vector |
-| Modality B | Synthetic feature vector |
-| Metadata | Age, severity score, binary conditions, sex |
-| Group label | Latent group used to measure approximate semantic matching |
-| True pair ID | Known exact cross-modal pair |
+Experiments are run across clean, moderate-noise, and high-noise settings, using two dataset sizes: 8000 and 24000 samples.
 
-Three data conditions are tested:
-
-| Condition | Meaning |
-|---|---|
-| Clean | Metadata and modality features are relatively aligned |
-| Moderate noise | Metadata and features become less reliable |
-| High noise | Metadata becomes weak and pair ambiguity becomes severe |
-
-Two sample sizes are used:
-
-| Total samples | Held-out retrieval pool |
-|---:|---:|
-| 8000 | 1600 |
-| 24000 | 4800 |
-
-All reported runs use 50 training epochs.
+The full experiment matrix and metric definitions are included in the [paper-style report](docs/paper_style_report.md#4-dataset-and-experimental-setup).
 
 ---
 
@@ -88,38 +67,6 @@ All reported runs use 50 training epochs.
 This project is motivated by propensity-score matching and recent work on unpaired multimodal alignment.
 
 For the full related-work discussion and references, see the [paper-style report](docs/paper_style_report.md#12-related-work).
-
----
-
-## Experiment Matrix
-
-```text
-3 data conditions × 2 sample sizes × 4 pairing strategies = 24 runs
-```
-
-| Variable | Values |
-|---|---|
-| Data condition | clean, moderate noise, high noise |
-| Sample size | 8000, 24000 |
-| Pairing strategy | true pair, random, metadata similarity, propensity weighted |
-| Training duration | 50 epochs |
-
----
-
-## Metrics
-
-This repository reports both pair quality and retrieval quality.
-
-| Metric | Meaning |
-|---|---|
-| Pair true precision | Fraction of constructed pairs that are exact true pairs |
-| Pair group precision | Fraction of constructed pairs from the same latent group |
-| Recall@K | Whether the correct match appears in the top K retrieved candidates |
-| Lift@K | Retrieval improvement over random chance |
-| Positive-pair similarity | Cosine similarity of true pairs in the learned embedding space |
-| Training loss | Contrastive optimization loss |
-
-This separation matters because retrieval results can be misleading if pair quality is not reported.
 
 ---
 
@@ -260,26 +207,17 @@ Generated folders such as `outputs/` and `checkpoints/` are intentionally ignore
 
 ## Interpretation Guide
 
-Use the strategies as reference points:
+A useful pseudo-pairing method should perform better than random pairing and move closer to the true-pair upper bound.
 
-| Strategy | How to interpret it |
-|---|---|
-| True pair | Best-case learning when supervision is correct |
-| Random | Failure baseline |
-| Metadata similarity | Simple metadata-based pseudo-pairing |
-| Propensity weighted | Learned metadata-based pseudo-pairing |
-
-A useful pseudo-pairing method should do better than random and move closer to the true-pair upper bound.
+For the full interpretation of each strategy, see the [paper-style report](docs/paper_style_report.md#3-method).
 
 ---
 
-## Boundary of This Benchmark
+## Benchmark Boundary
 
-This benchmark is a controlled pairing laboratory. The synthetic setup makes it possible to observe exact pair quality, same-group quality, metadata noise, and retrieval behavior under known conditions.
+This is a controlled synthetic benchmark, so the results should be interpreted as method-behavior analysis rather than a universal ranking of matching algorithms.
 
-The results should not be read as a universal ranking of matching algorithms. They show how these specific pair-construction strategies behave inside a designed stress test.
-
-A natural next step would be to test stronger matching estimators, add confidence-thresholded pair filtering, repeat runs across multiple seeds, and evaluate whether the same pair-quality patterns appear in authorized real paired datasets.
+For limitations and future work, see the [paper-style report](docs/paper_style_report.md#9-limitations).
 
 ## Documentation
 

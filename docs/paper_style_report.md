@@ -147,3 +147,31 @@ The most important lesson is:
 > Before asking whether the retrieval model is good, first ask whether the training pairs are meaningful.
 
 This changed how I think about multimodal learning pipelines. Pair construction, supervision quality, retrieval metrics, and embedding behavior must be evaluated together.
+
+## 12. Related Work
+
+This repository is motivated by propensity-score methods for matching and recent work on unpaired multimodal alignment.
+
+The classical foundation comes from Rosenbaum and Rubin's work on propensity scores, where the propensity score is defined as the conditional probability of treatment assignment given observed covariates. In causal inference, matching on the propensity score is used to make groups more comparable when direct randomized assignment is not available.
+
+This idea is closely related to the problem studied in this repository: when exact cross-modal pairs are unavailable, metadata can be used to estimate whether two samples are likely to belong together.
+
+The most directly related multimodal work is *Propensity Score Alignment of Unpaired Multimodal Data*. That paper uses propensity scores as a shared matching space for unpaired multimodal samples, then applies matching methods such as shared nearest neighbours and optimal transport.
+
+This repository does not reproduce that paper directly. Instead, it builds a smaller controlled benchmark to compare random pairing, metadata-similarity pairing, and propensity-weighted pseudo-pairing under different noise levels.
+
+## 13. References
+
+- Paul R. Rosenbaum and Donald B. Rubin. *The Central Role of the Propensity Score in Observational Studies for Causal Effects*. Biometrika, 1983.
+- Peter C. Austin. *An Introduction to Propensity Score Methods for Reducing the Effects of Confounding in Observational Studies*. Multivariate Behavioral Research, 2011.
+- Johnny Xi, Jana Osea, Zuheng Xu, and Jason Hartford. *Propensity Score Alignment of Unpaired Multimodal Data*. NeurIPS, 2024.
+- Cédric Villani. *Optimal Transport: Old and New*. Springer, 2009.
+
+### Why these references?
+
+- **Rosenbaum and Rubin** provide the classical statistical foundation for propensity scores and matching.
+- **Austin** gives a practical overview of propensity-score methods and why they are useful for reducing confounding in observational data.
+- **Propensity Score Alignment of Unpaired Multimodal Data** is the closest modern reference because it applies propensity-score ideas to unpaired multimodal matching.
+- **Villani** is included because optimal transport is a major matching framework used in multimodal alignment literature, including propensity-score-based alignment work.
+
+
